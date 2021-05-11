@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "serverless": "^2.38.0",
+    "sls-dev-tools": "^1.1.15"
+  },
+  "license": "MIT"
+}

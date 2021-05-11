@@ -1,0 +1,58 @@
+service: event-bridge-demo
+
+package:
+  exclude:
+    - node_modules/**
+    - package.json
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "events:*"
+      Resource:
+        Fn::GetAtt:
+          - EventBridge
+          - Arn
+
+functions:
+  service1:
+    handler: src/service1.handler
+  service2:
+    handler: src/service2.handler
+    role: EventRole
+    events:
+      - eventBridge:
+          eventBus: arn:aws:events:${AWS::Region}:${AWS::AccountId}:event-bus/event-bridge
+          pattern:
+            source:
+              - custom.service2_event
+
+resources:
+  Resources:
+    EventBridge:
+      Type: AWS::Events::EventBus
+      Properties:
+        Name: event-bridge
+
+    EventRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: "EventRole"
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - "lambda.amazonaws.com"
+                  - "s3.amazonaws.com"
+                  - "events.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
