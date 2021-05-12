@@ -25,4 +25,6 @@ module.exports.handler = async (ctx, _) => {
   } catch (error) {
     console.error(error);
   }
+
+  return true
 };
