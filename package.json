@@ -1,7 +1,15 @@
 {
+  "scripts": {
+    "test": "jest \"__tests__/integration/.*.test.js\""
+  },
   "devDependencies": {
+    "@babel/preset-env": "^7.15.0",
+    "@types/jest": "^27.0.1",
+    "jest": "^27.0.6",
     "serverless": "^2.38.0",
-    "sls-dev-tools": "^1.1.15"
+    "sls-dev-tools": "^1.1.15",
+    "sls-test-tools": "^1.0.2",
+    "uuid": "^8.3.2"
   },
   "license": "MIT"
 }

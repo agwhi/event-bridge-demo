@@ -18,15 +18,15 @@
   - Select the `Archives` tab
   - Use the `Create Archive` button to create a archive
   - Select custom bus again and this time create an archive
-- Use sls-dev-tools to invoke the service1 lambda
+- Use sls-dev-tools to invoke the placeOrder lambda
   - Tab back to the `Lambda functions section`
   - select the lambda in the list using the arrows and click `i`
-- Open the logs for service1
+- Open the logs for placeOrder
   - select the lambda in the list and click enter
   - see the body you sent has been printed
-- Open the logs for service2
+- Open the logs for createInvoice
   - select the lambda in the list and click enter
-  - see the body you sent to service1 has been printed
+  - see the body you sent to placeOrder has been printed
 - Select the event-bridge
   - tab to the Event Bridges section
   - click `r` too see the Event registry
@@ -36,7 +36,7 @@
   - use the arrows to select the 'event-bridge' bus
   - click `i`
   - Enter details that match below (up to you what you put in Detail)
-    - Source: "custom.service2_event"
+    - Source: "event-bridge-demo.placeOrder"
     - DetailType: "example"
 - Go back to event buses page on the AWS console
   - click `o` on the event bus again (if you closed the old tab)

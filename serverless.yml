@@ -18,22 +18,33 @@ provider:
         Fn::GetAtt:
           - EventBridge
           - Arn
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:event-bridge-demo-dev-createInvoice
+        - arn:aws:s3:::event-bridge-demo-bucket/*
 
 functions:
-  service1:
-    handler: src/service1.handler
-  service2:
-    handler: src/service2.handler
+  placeOrder:
+    handler: src/placeOrder.handler
+  createInvoice:
+    handler: src/createInvoice.handler
     role: EventRole
     events:
       - eventBridge:
           eventBus: arn:aws:events:${AWS::Region}:${AWS::AccountId}:event-bus/event-bridge
           pattern:
             source:
-              - custom.service2_event
+              - event-bridge-demo.placeOrder
 
 resources:
   Resources:
+    S3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: event-bridge-demo-bucket
+
     EventBridge:
       Type: AWS::Events::EventBus
       Properties:
